@@ -7,8 +7,8 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-start; 
+            align-items: flex-start;   
             min-height: 100vh;
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #002fff 0%, #ff0000 100%);
@@ -19,7 +19,8 @@
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgb(255, 0, 0);
-            text-align: center;
+            text-align: left;
+            margin: 20px; 
         }
         h1 {
             color: #333;
@@ -44,41 +45,67 @@
         button:hover {
             background-color: #764ba2;
         }
-        .subscribe-btn {
+        .lol-btn {
             position: fixed;
             top: 20px;
             right: 20px;
             background-color: #ff6b35;
             color: white;
-            padding: 10px 20px;
+            padding: 20px 30px;
             border: none;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 20px;
             cursor: pointer;
             z-index: 100;
         }
-        .subscribe-btn:hover {
-            background-color: #ff5722;
+        .lol-btn:hover {
+            background-color: #ff3c00;
+        }
+        .clock {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 255, 13, 0.6);
+            color: #774f4f;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 25px;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <button class="subscribe-btn" onclick="alert('Subscribe functionality here!')">Subscribe</button>
-    <div class="container">
+    <button class="lol-btn" onclick="alert('Zajtra po teba príde neviditeľná ryba.')">prekvapenie</button>    <div id="clock" class="clock">--:--:--</div>    <div class="container">
         <h1>Random Number Generator</h1>
-        <p>Random number between 1 and 100000:</p>
+        <p>Random number between 1 and 100000000:</p>
         <div id="randomNumber">?</div>
         <button onclick="generateNumber()">Generate Number</button>
+        <button onclick="changeBackground()">Change BG</button>
     </div>
 
      <script>
             
         function generateNumber() {
-        const randomNum = Math.floor(Math.random() * 100000) + 1;
+        const randomNum = Math.floor(Math.random() * 100000000) + 1;
         document.getElementById('randomNumber').textContent = randomNum;
         }
 
         generateNumber();
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        window.addEventListener('load', updateClock);
+
+        function changeBackground() {
+            const r = Math.floor(Math.random()*256);
+            const g = Math.floor(Math.random()*256);
+            const b = Math.floor(Math.random()*256);
+            document.body.style.background = `rgb(${r},${g},${b})`;
+        }
     </script>
 </body>
 </html>
