@@ -82,6 +82,18 @@
         <div id="randomNumber">?</div>
         <button onclick="generateNumber()">Generate Number</button>
         <button onclick="changeBackground()">Change BG</button>
+        <button onclick="toggleRandomLetter()">Random Letter</button>
+        <div id="letterDisplay" style="margin-top:10px; font-size:40px; font-weight:bold"></div>
+        <h2>Calculator</h2>
+        <input type="number" id="num1" placeholder="First number" style="margin-right:10px;">
+        <input type="number" id="num2" placeholder="Second number">
+        <br>
+        <button onclick="calculate('+')">+</button>
+        <button onclick="calculate('-')">-</button>
+        <button onclick="calculate('*')">*</button>
+        <button onclick="calculate('/')">/</button>
+        <button onclick="clearCalc()">Clear</button>
+        <div id="calcResult" style="margin-top:10px; font-size:20px;"></div>
     </div>
 
      <script>
@@ -105,6 +117,55 @@
             const g = Math.floor(Math.random()*256);
             const b = Math.floor(Math.random()*256);
             document.body.style.background = `rgb(${r},${g},${b})`;
+        }
+
+        let letterInterval = null;
+        function toggleRandomLetter() {
+            const display = document.getElementById('letterDisplay');
+            if (letterInterval) {
+                clearInterval(letterInterval);
+                letterInterval = null;
+            } else {
+                letterInterval = setInterval(() => {
+                    const charCode = Math.floor(Math.random() * 26) + 65;
+                    display.textContent = String.fromCharCode(charCode);
+                }, 200);
+            }
+        }
+
+        function calculate(op) {
+            const n1 = parseFloat(document.getElementById('num1').value);
+            const n2 = parseFloat(document.getElementById('num2').value);
+            if (isNaN(n1) || isNaN(n2)) {
+                document.getElementById('calcResult').textContent = 'Please enter valid numbers';
+                return;
+            }
+            let result;
+            switch(op) {
+                case '+':
+                    result = n1 + n2;
+                    break;
+                case '-':
+                    result = n1 - n2;
+                    break;
+                case '*':
+                    result = n1 * n2;
+                    break;
+                case '/':
+                    if (n2 === 0) {
+                        result = 'Cannot divide by zero';
+                    } else {
+                        result = n1 / n2;
+                    }
+                    break;
+            }
+            document.getElementById('calcResult').textContent = 'Result: ' + result;
+        }
+
+        function clearCalc() {
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            document.getElementById('calcResult').textContent = '';
         }
     </script>
 </body>
