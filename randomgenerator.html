@@ -44,9 +44,26 @@
         button:hover {
             background-color: #764ba2;
         }
+        .subscribe-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff6b35;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 100;
+        }
+        .subscribe-btn:hover {
+            background-color: #ff5722;
+        }
     </style>
 </head>
 <body>
+    <button class="subscribe-btn" onclick="alert('Subscribe functionality here!')">Subscribe</button>
     <div class="container">
         <h1>Random Number Generator</h1>
         <p>Random number between 1 and 100000:</p>
