@@ -51,10 +51,10 @@
             right: 20px;
             background-color: #ff6b35;
             color: rgb(255, 0, 0);
-            padding: 20px 30px;
+            padding: 40px 60px;
             border: none;
             border-radius: 5px;
-            font-size: 20px;
+            font-size: 40px;
             cursor: pointer;
             z-index: 100;
         }
@@ -76,7 +76,7 @@
     </style>
 </head>
 <body>
-    <button class="lol-btn" onclick="alert('Zajtra po teba príde neviditeľná ryba.')">prekvapenie</button>    <div id="clock" class="clock">--:--:--</div>    <div class="container">
+    <button class="lol-btn" onclick="handleSurpriseClick()">prekvapenie</button>    <div id="clock" class="clock">--:--:--</div>    <div class="container">
         <h1>Random Number Generator</h1>
         <p>Random number between 1 and 100000000:</p>
         <div id="randomNumber">?</div>
@@ -84,6 +84,13 @@
         <button onclick="changeBackground()">Change background</button>
         <button onclick="toggleRandomLetter()">Letter Randomiser</button>
         <div id="letterDisplay" style="margin-top:10px; font-size:40px; font-weight:bold"></div>
+
+        <h2>Random Picture</h2>
+        <button onclick="randomPicture()">Show random picture</button>
+        <div id="pictureContainer" style="margin-top:10px;">
+            <img id="randomPic" src="" alt="Random picture" style="max-width:100%; border-radius:10px; display:none;" />
+        </div>
+
         <h2>kalkulačka</h2>
         <input type="number" id="num1" placeholder="First number" style="margin-right:10px;">
         <input type="number" id="num2" placeholder="Second number">
@@ -114,22 +121,39 @@
             document.getElementById('clock').textContent = timeString;
         }
 
-        function handleVisitCount() {
-            const key = 'pageOpenCount';
+        function handleSurpriseClick() {
+            const key = 'surpriseClickCount';
             const current = parseInt(localStorage.getItem(key) || '0', 10) + 1;
             localStorage.setItem(key, current);
 
             if (current % 10 === 0) {
-                // Every 10th page load, open a spinning fish GIF in a new tab
                 window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1', '_blank');
+            } else {
+                alert(`Kliknuté ${current}×. Na KAŽDÝ 10. klik sa otvorí prekvapenie!`);
             }
         }
 
+        function randomPicture() {
+            const pics = [
+                'https://th.bing.com/th/id/OIP.KrelSUOAg_-vjEzdmmEg6wHaHi?w=185&h=189&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://th.bing.com/th/id/OIP.f4T9xS6CPnnVp6ciZV8MMAHaEK?w=298&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://i.pinimg.com/736x/c1/47/4f/c1474f5d75ae81200a464e81074182af.jpg',
+                'https://th.bing.com/th/id/OIP.9GNskaLAKcdoao0R-lJ7VAHaHa?w=169&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://th.bing.com/th/id/OIP.eHBibXuc3Tut3VtWj8nG7QHaEK?w=320&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://th.bing.com/th/id/OIP.-58dZ6OR4ebrcbAnSxfXBAHaHa?w=156&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://th.bing.com/th/id/OIP.rJPkeiV4g3kp44GBVxBLMAHaHa?w=174&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://th.bing.com/th/id/OIP.wMkjTIW8BSSib6_1S5sHdwHaEK?w=299&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+                'https://ruinmyweek.com/wp-content/uploads/2024/05/funny-memes-5-1-2429.webp',
+                'https://preview.redd.it/r9h6azou7eu81.jpg?width=640&crop=smart&auto=webp&s=8b9c6de9947ee54012f6b10a1321a81471095738',
+            ];
+            const chosen = pics[Math.floor(Math.random() * pics.length)];
+            const img = document.getElementById('randomPic');
+            img.src = chosen;
+            img.style.display = 'block';
+        }
+
         setInterval(updateClock, 1000);
-        window.addEventListener('load', () => {
-            updateClock();
-            handleVisitCount();
-        });
+        window.addEventListener('load', updateClock);
 
         function changeBackground() {
             const r = Math.floor(Math.random()*256);
