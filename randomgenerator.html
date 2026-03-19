@@ -23,13 +23,13 @@
             margin: 20px; 
         }
         h1 {
-            color: #ffffff;
+            color: #000000;
             margin-bottom: 20px;
         }
         #randomNumber {
             font-size: 100px;
             font-weight: bold;
-            color: #ffadad;
+            color: #581616;
             margin: 20px 0;
         }
         button {
@@ -92,19 +92,13 @@
         </div>
 
         <h2>kalkulačka</h2>
-        <input type="number" id="num1" placeholder="First number" style="margin-right:10px;">
-        <input type="number" id="num2" placeholder="Second number">
-        <br>
-        <button onclick="calculate('+')">+</button>
-        <button onclick="calculate('-')">-</button>
-        <button onclick="calculate('*')">*</button>
-        <button onclick="calculate('/')">/</button>
+        <input type="text" id="expression" placeholder="e.g. 2+2" style="width:220px; margin-right:10px;">
+        <button onclick="calculate()">Calculate</button>
         <button onclick="clearCalc()">Clear</button>
         <div id="calcResult" style="margin-top:10px; font-size:20px;"></div>
         <h2>Coin Fliper</h2>
         <button onclick="coinFlip()">Flip Coin</button>
         <div id="coinResult" style="margin-top:10px; font-size:20px;"></div>
-        <textarea id="coinHistory" rows="10" cols="50" placeholder="Coin flip history will appear here..." style="margin-top:10px;"></textarea>
     </div>
 
      <script>
@@ -152,9 +146,6 @@
             img.style.display = 'block';
         }
 
-        setInterval(updateClock, 1000);
-        window.addEventListener('load', updateClock);
-
         function changeBackground() {
             const r = Math.floor(Math.random()*256);
             const g = Math.floor(Math.random()*256);
@@ -162,53 +153,29 @@
             document.body.style.background = `rgb(${r},${g},${b})`;
         }
 
-        let letterInterval = null;
         function toggleRandomLetter() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
             const display = document.getElementById('letterDisplay');
-            if (letterInterval) {
-                clearInterval(letterInterval);
-                letterInterval = null;
+            if (display.textContent === randomLetter) {
+                display.textContent = '';
             } else {
-                letterInterval = setInterval(() => {
-                    const charCode = Math.floor(Math.random() * 26) + 65;
-                    display.textContent = String.fromCharCode(charCode);
-                }, 200);
+                display.textContent = randomLetter;
             }
         }
 
-        function calculate(op) {
-            const n1 = parseFloat(document.getElementById('num1').value);
-            const n2 = parseFloat(document.getElementById('num2').value);
-            if (isNaN(n1) || isNaN(n2)) {
-                document.getElementById('calcResult').textContent = 'Please enter valid numbers';
+        function calculate() {
+            const expr = document.getElementById('expression').value.trim();
+            if (!expr) {
+                document.getElementById('calcResult').textContent = 'Enter an expression like 2+2';
                 return;
             }
-            let result;
-            switch(op) {
-                case '+':
-                    result = n1 + n2;
-                    break;
-                case '-':
-                    result = n1 - n2;
-                    break;
-                case '*':
-                    result = n1 * n2;
-                    break;
-                case '/':
-                    if (n2 === 0) {
-                        result = 'Cannot divide by zero you dissapointment!';
-                    } else {
-                        result = n1 / n2;
-                    }
-                    break;
+            try {
+                const result = eval(expr);
+                document.getElementById('calcResult').textContent = 'Result: ' + result;
+            } catch {
+                document.getElementById('calcResult').textContent = 'Invalid expression';
             }
-            document.getElementById('calcResult').textContent = 'Result: ' + result;
-        }   
-
-        function clearCalc() {
-            document.getElementById('num1').value = '';
-            document.getElementById('num2').value = '';
-            document.getElementById('calcResult').textContent = '';
         }
 
         function coinFlip() {
@@ -222,9 +189,7 @@
                 result = 'Corner of wisdom';
             }
             document.getElementById('coinResult').textContent = 'Result: ' + result;
-            const history = document.getElementById('coinHistory');
             const timestamp = new Date().toLocaleString();
-            history.value += timestamp + ': ' + result + '\n';
         }
     </script>
 </body>
