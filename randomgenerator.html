@@ -23,13 +23,13 @@
             margin: 20px; 
         }
         h1 {
-            color: #333;
+            color: #ffffff;
             margin-bottom: 20px;
         }
         #randomNumber {
             font-size: 100px;
             font-weight: bold;
-            color: #000000;
+            color: #ffadad;
             margin: 20px 0;
         }
         button {
@@ -50,7 +50,7 @@
             top: 20px;
             right: 20px;
             background-color: #ff6b35;
-            color: white;
+            color: rgb(255, 0, 0);
             padding: 20px 30px;
             border: none;
             border-radius: 5px;
@@ -66,7 +66,7 @@
             bottom: 20px;
             left: 20px;
             background: rgba(0, 255, 13, 0.6);
-            color: #774f4f;
+            color: #ff0000;
             padding: 10px 15px;
             border-radius: 5px;
             font-family: monospace;
@@ -80,11 +80,11 @@
         <h1>Random Number Generator</h1>
         <p>Random number between 1 and 100000000:</p>
         <div id="randomNumber">?</div>
-        <button onclick="generateNumber()">Generate Number</button>
-        <button onclick="changeBackground()">Change BG</button>
-        <button onclick="toggleRandomLetter()">Random Letter</button>
+        <button onclick="generateNumber()">number generator</button>
+        <button onclick="changeBackground()">Change background</button>
+        <button onclick="toggleRandomLetter()">Letter Randomiser</button>
         <div id="letterDisplay" style="margin-top:10px; font-size:40px; font-weight:bold"></div>
-        <h2>Calculator</h2>
+        <h2>kalkulačka</h2>
         <input type="number" id="num1" placeholder="First number" style="margin-right:10px;">
         <input type="number" id="num2" placeholder="Second number">
         <br>
@@ -94,6 +94,10 @@
         <button onclick="calculate('/')">/</button>
         <button onclick="clearCalc()">Clear</button>
         <div id="calcResult" style="margin-top:10px; font-size:20px;"></div>
+        <h2>Coin Fliper</h2>
+        <button onclick="coinFlip()">Flip Coin</button>
+        <div id="coinResult" style="margin-top:10px; font-size:20px;"></div>
+        <textarea id="coinHistory" rows="10" cols="50" placeholder="Coin flip history will appear here..." style="margin-top:10px;"></textarea>
     </div>
 
      <script>
@@ -109,8 +113,23 @@
             const timeString = now.toLocaleTimeString();
             document.getElementById('clock').textContent = timeString;
         }
+
+        function handleVisitCount() {
+            const key = 'pageOpenCount';
+            const current = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+            localStorage.setItem(key, current);
+
+            if (current % 10 === 0) {
+                // Every 10th page load, open a spinning fish GIF in a new tab
+                window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1', '_blank');
+            }
+        }
+
         setInterval(updateClock, 1000);
-        window.addEventListener('load', updateClock);
+        window.addEventListener('load', () => {
+            updateClock();
+            handleVisitCount();
+        });
 
         function changeBackground() {
             const r = Math.floor(Math.random()*256);
@@ -153,21 +172,35 @@
                     break;
                 case '/':
                     if (n2 === 0) {
-                        result = 'Cannot divide by zero';
+                        result = 'Cannot divide by zero you dissapointment!';
                     } else {
                         result = n1 / n2;
                     }
                     break;
             }
             document.getElementById('calcResult').textContent = 'Result: ' + result;
-        }
-
-        
+        }   
 
         function clearCalc() {
             document.getElementById('num1').value = '';
             document.getElementById('num2').value = '';
             document.getElementById('calcResult').textContent = '';
+        }
+
+        function coinFlip() {
+            const rand = Math.random() * 100;
+            let result;
+            if (rand < 49) {
+                result = 'Heads';
+            } else if (rand < 98) {
+                result = 'Tails';
+            } else {
+                result = 'Corner of wisdom';
+            }
+            document.getElementById('coinResult').textContent = 'Result: ' + result;
+            const history = document.getElementById('coinHistory');
+            const timestamp = new Date().toLocaleString();
+            history.value += timestamp + ': ' + result + '\n';
         }
     </script>
 </body>
