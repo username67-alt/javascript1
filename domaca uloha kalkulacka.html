@@ -1,0 +1,19 @@
+<body>
+    <h2>kalkulačka</h2>
+        <input type="text" id="expression" placeholder="e.g. 2+2" style="width:220px; margin-right:10px;">
+        <button onclick="calculate()">Calculate</button>
+        <div id="calcResult" style="margin-top:10px; font-size:20px;"></div>
+        <p id="resultText" style="margin-top:10px;"></p>
+    </div>
+    <script>
+        function calculate() {
+            const expression = document.getElementById('expression').value;
+            try {
+                const result = eval(expression);
+                document.getElementById('calcResult').textContent = `Result: ${result}`;
+            } catch (error) {
+                document.getElementById('calcResult').textContent = 'Error: Invalid expression';
+            }
+        }
+    </script>
+    </body>

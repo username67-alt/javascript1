@@ -82,7 +82,6 @@
         <h2>kalkulačka</h2>
         <input type="text" id="expression" placeholder="e.g. 2+2" style="width:220px; margin-right:10px;">
         <button onclick="calculate()">Calculate</button>
-        <button onclick="clearCalc()">Clear</button>
         <div id="calcResult" style="margin-top:10px; font-size:20px;"></div>
         <h2>Coin Fliper</h2>
         <button onclick="coinFlip()">Flip Coin</button>
@@ -105,13 +104,15 @@
 
         function handleSurpriseClick() {
             const key = 'surpriseClickCount';
-            const current = parseInt(localStorage.getItem(key) || '0', 5) + 1;
+            const current = parseInt(localStorage.getItem(key) || '0', 10) + 1;
             localStorage.setItem(key, current);
 
             if (current % 5 === 0) {
                 window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1', '_blank');
             }
-
+            else {
+                alert(`You clicked ${current} times! Click ${5 - (current % 5)} more times for a surprise!`);
+            }
         }
 
         function randomPicture() {
